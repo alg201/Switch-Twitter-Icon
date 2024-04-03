@@ -1,18 +1,24 @@
-chrome.storage.local.get(["img", "word"])
+chrome.storage.local.get(["img", "word", "invert"])
 .then((result) => {
     if(result.img != undefined){
         document.getElementById("actualImage").src = result.img
+        document.getElementById("invert").removeAttribute("disabled")
     }else{
         document.getElementById("actualImage").src = "https://abs.twimg.com/favicons/twitter.3.ico"
     }
     if(result.word != undefined){
         document.getElementById('tweetWord').value = result.word
     }
+    if(result.invert){
+        document.getElementById("invert").checked = true
+        document.getElementById('actualImage').style = "filter: invert(1)";
+    }
 })
 document.getElementById('upload').addEventListener('click', initUpload)
 document.getElementById('fileUpload').addEventListener('change', changeLogo)
 document.getElementById('clear').addEventListener('click', clearLogo)
 document.getElementById('saveWord').addEventListener('click', saveWord)
+document.getElementById('invert').addEventListener('click', invertColors)
 
 
 function initUpload(){
@@ -75,6 +81,7 @@ function changeLogo(){
         chrome.storage.local.set({img: base64})
         .then(() => {
             document.getElementById("actualImage").src = base64
+            document.getElementById("invert").removeAttribute("disabled")
         })
     }
     reader.readAsDataURL(file)
@@ -84,5 +91,14 @@ function clearLogo(){
     chrome.storage.local.set({img: null})
     .then(() => {
         document.getElementById("actualImage").src = "https://abs.twimg.com/favicons/twitter.3.ico"
+        document.getElementById("actualImage").style = ""
+        document.getElementById("invert").setAttribute("disabled", "")
+        document.getElementById("invert").checked = false
+        chrome.storage.local.set({invert: false});
     })
+}
+
+function invertColors(button){
+    chrome.storage.local.set({invert: button.target.checked});
+    document.getElementById('actualImage').style = "filter: invert("+ Number(button.target.checked) +")";
 }

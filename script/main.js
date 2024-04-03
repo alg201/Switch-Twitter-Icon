@@ -44,10 +44,13 @@ async function waitForElmAll(selector) {
 }
 
 function onUrlChange(){
-    chrome.storage.local.get(["img", "gif"])
+    chrome.storage.local.get(["img", "gif", "invert"])
     .then((result) => {
         if(result.img != undefined){
-            modifyIcons(result.img, result.gif)
+            modifyIcons(result.img, result.gif, result.invert)
+        }
+        if(result.invert){
+
         }
     })
     chrome.storage.local.get(["word"])
@@ -68,11 +71,11 @@ function modifyTweetWord(word){
     })
 }   
 
-function modifyIcons(image, isGif){
+function modifyIcons(image, isGif, invert){
     //change home button icon
     waitForElm('a[href="/home"]').then((elem) => {
         elem.querySelector('div').innerHTML = 
-        "<img style='height: 100%' src='"+ image +"' class='r-4qtqp9 r-yyyyoo r-16y2uox r-8kz0gk r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-lrsllp'>"    
+        "<img style='height: 100%; filter: invert("+Number(invert)+") ' src='"+ image +"' class='r-4qtqp9 r-yyyyoo r-16y2uox r-8kz0gk r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-lrsllp'>"    
     })
 
     //change the favicon
@@ -89,7 +92,7 @@ function modifyIcons(image, isGif){
     //"verified" logo change
     waitForElm('a[href="/i/verified-choose"]').then((elem) =>{
         elem.querySelector('svg').parentElement.innerHTML = 
-        "<img src='"+ image +"' class='r-1nao33i r-4qtqp9 r-yyyyoo r-lwhw9o r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-cnnz9e'>"
+        "<img src='"+ image +"' style='filter: invert("+Number(invert)+") ' class='r-1nao33i r-4qtqp9 r-yyyyoo r-lwhw9o r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-cnnz9e'>"
     })
 }
 

@@ -1,7 +1,7 @@
 {
     "manifest_version" : 3,
     "name" : "Twitter Icon Changer",
-    "version" : "0.06.2",
+    "version" : "0.7.0",
     "description" : "Twitter Icon Changer",
     "icons" : {
         "32" : "media/twitter.3.ico",
