@@ -1,0 +1,21 @@
+{
+    "manifest_version" : 3,
+    "name" : "Twitter Icon Changer",
+    "version" : "0.06.2",
+    "description" : "Twitter Icon Changer",
+    "icons" : {
+        "32" : "media/twitter.3.ico",
+        "128" : "media/twitter.3.ico"
+    },
+    "action" : {
+        "default_popup": "popup/index.html"
+    },
+    "content_scripts" : [{
+        "run_at": "document_idle",
+        "matches" : ["https://twitter.com/*", "http://twitter.com/*"],
+        "js" : ["script/main.js"]
+    }],
+    "permissions" : [
+        "storage"
+    ]
+}
